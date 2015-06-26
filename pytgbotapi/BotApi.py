@@ -48,3 +48,13 @@ class BotApi:
             updateObject = Update(update["update_id"],update["message"])
             updateObjects.append(updateObject)
         return updateObjects
+
+    def sendMessage(self,chat_id,text,**optional):
+        parameters = {"chat_id":chat_id,"text":text}
+        disable_web_page_preview=optional.get('disable_web_page_preview',None)
+        reply_to_message_id=optional.get('reply_to_message_id',None)
+        reply_markup=optional.get('reply_markup',None)
+        if disable_web_page_preview != None: parameters.append({"disable_web_page_preview":disable_web_page_preview})
+        if reply_to_message_id != None: parameters.append({"reply_to_message_id":reply_to_message_id})
+        if reply_markup != None: parameters.append({"reply_markup":reply_markup})
+        messageResponse = self.send_request("sendMessage",parameters)

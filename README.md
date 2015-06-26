@@ -13,7 +13,7 @@ def main():
     print(bot.getMe())
     for update in bot.getUpdates():
         print(update.update_id)
-
+    bot.sendMessage(1111111,"Hello World")
 if __name__ == "__main__":
     main()
 
