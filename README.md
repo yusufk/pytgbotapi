@@ -1,10 +1,10 @@
 # pytgbotapi
-A python implementation of the Telegram Bot API - https://core.telegram.org/bots/api
+*A python implementation of the Telegram Bot API - https://core.telegram.org/bots/api*
 
-Please feel free to contribute!
+**Please feel free to contribute!**
 
 Example usage:
-
+```
 from BotApi import BotApi
 
 def main():
@@ -16,4 +16,5 @@ def main():
     bot.sendMessage(1111111,"Hello World")
 if __name__ == "__main__":
     main()
+```
 
