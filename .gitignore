@@ -1,2 +1,6 @@
 *.pyc
 pytgbotapi/nokita_bot.py
+
+pytgbotapi/aiml
+
+pytgbotapi/nokita.brn
