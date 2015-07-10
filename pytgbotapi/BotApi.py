@@ -1,18 +1,22 @@
 import requests, json
+from collections import namedtuple
 
 class User:
     """User Object"""
-    def __init__(self, userid, first_name,**optional):
+    def __init__(self, userid, first_name,last_name=None,username=None):
         self.userid = userid
         self.first_name = first_name
-        #self.last_name = last_name
-        #self.username = username
+        self.last_name = last_name
+        self.username = username
 
 class Update:
     """Update Object"""
     def __init__(self, update_id,message=None):
         self.update_id = update_id
-        self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
+        if message != None:
+            #print(message)
+            self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
+        else: self.message = None
 
 class Message:
     """Message Object"""
@@ -36,6 +40,9 @@ class BotApi:
     def send_request(self,method,parameters=None):
         r = requests.post(self.api_url+"/bot"+self.token+"/"+method, parameters)#, data, auth=('user', '*****'))
         response = json.loads(r.text)
+        if response['result'] == None:
+            print(response)
+            return None
         return response['result']
 
     def getMe(self):
