@@ -15,8 +15,9 @@ class Update:
         self.update_id = update_id
         if message != None:
             #print(message)
-            self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
-        else: self.message = None
+            if "text" in message:
+                self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
+            else: self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])        else: self.message = None
 
 class Message:
     """Message Object"""
@@ -47,7 +48,7 @@ class BotApi:
 
     def getMe(self):
         me = self.send_request("getMe")
-        print(me)
+        #print(me)
         return me
 
     def getUpdates(self,**optional):
