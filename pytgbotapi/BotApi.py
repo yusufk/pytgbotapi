@@ -1,5 +1,26 @@
 import requests, json
 from collections import namedtuple
+from pprint import pprint
+from twisted.application.internet import TCPServer
+from twisted.application.service import Application
+from twisted.web.resource import Resource
+from twisted.web.server import Site
+
+
+class WebHookHost(Resource):
+    def __init__(self,listener)
+        self.listener = listener
+    def render_GET(self, request):
+        return ''
+
+    def render_POST(self, request):
+        pprint(request.__dict__)
+        newdata = request.content.getvalue()
+        print newdata
+        update = json.loads(newdata)
+        updateObject = Update(update["update_id"],update["message"])
+        self.listener.handle(updateObject)
+        return ''
 
 class User:
     """User Object"""
@@ -41,10 +62,11 @@ class BotApi:
     def send_request(self,method,parameters=None):
         r = requests.post(self.api_url+"/bot"+self.token+"/"+method, parameters)#, data, auth=('user', '*****'))
         response = json.loads(r.text)
-        if response['result'] == None:
+        if "result" in response:
+            return response['result']
+        else:
             print(response)
             return None
-        return response['result']
 
     def getMe(self):
         me = self.send_request("getMe")
@@ -67,3 +89,9 @@ class BotApi:
 
     def getLastFetchedId(self):
         return self.lastFetchedUpdate
+
+    def startHost(self,listener,port=8880):
+        root = Resource()
+        root.putChild("form", WebHookHost(listener))
+        application = Application("My Bot Service")
+        TCPServer(port, Site(root)).setServiceParent(application)
