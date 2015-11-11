@@ -8,7 +8,7 @@ from twisted.web.server import Site
 
 
 class WebHookHost(Resource):
-    def __init__(self,listener)
+    def __init__(self,listener):
         self.listener = listener
     def render_GET(self, request):
         return ''
