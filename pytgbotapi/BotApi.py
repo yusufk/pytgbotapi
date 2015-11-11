@@ -46,10 +46,12 @@ class Chat:
 	def __init__(self, msg_id, msg_type):
 		self.msg_id = msg_id
 		self.msg_type = msg_type
-        self.title = optional.get('title',None)
-        self.username = optional.get('username',None)
+
     def set_title(self,msg_title):
         self.title = msg_title
+
+    def set_username(self,username):
+        self.username = username
 
 class Message:
     """Message Object"""
@@ -60,8 +62,11 @@ class Message:
         self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
         self.chat = Chat(chat['id'],chat['type'])
-        if title in chat:
+        if "title" in chat:
             self.chat.set_title(chat['title'])
+        if "username" in chat:
+            self.chat.set_username(chat['username'])
+
     def set_text(self,text):
         self.text = text
 
