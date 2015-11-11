@@ -38,7 +38,8 @@ class Update:
             #print(message)
             if "text" in message:
                 self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
-            else: self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])        else: self.message = None
+            else: self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
+        else: self.message = None
 
 class Chat:
 	"""Chat Object"""
