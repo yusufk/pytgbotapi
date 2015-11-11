@@ -57,7 +57,7 @@ class Message:
         #print(msg_from)
         self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
-        self.chat = Chat(chat['id'],chat['type'],title = chat['title'], username = chat['username']
+        self.chat = Chat(chat['id'],chat['type'],title = chat['title'], username = chat['username'])
         self.text = optional.get('text',None)
 
 class BotApi:
