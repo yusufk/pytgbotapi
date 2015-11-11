@@ -36,29 +36,34 @@ class Update:
         self.update_id = update_id
         if message != None:
             #print(message)
+            self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
             if "text" in message:
-                self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
-            else: self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
+                self.message.set_text(message['text'])
         else: self.message = None
 
 class Chat:
 	"""Chat Object"""
-	def __init__(self, msg_id, msg_type=None,**optional):
+	def __init__(self, msg_id, msg_type):
 		self.msg_id = msg_id
 		self.msg_type = msg_type
         self.title = optional.get('title',None)
         self.username = optional.get('username',None)
+    def set_title(self,msg_title):
+        self.title = msg_title
 
 class Message:
     """Message Object"""
 
-    def __init__(self, message_id=None, msg_from=None, msg_date=None, chat=None,**optional):
+    def __init__(self, message_id=None, msg_from=None, msg_date=None, chat=None):
         self.message_id = message_id
         #print(msg_from)
         self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
-        self.chat = Chat(chat['id'],chat['type'],title = chat['title'], username = chat['username'])
-        self.text = optional.get('text',None)
+        self.chat = Chat(chat['id'],chat['type'])
+        if title in chat:
+            self.chat.set_title(chat['title'])
+    def set_text(self,text):
+        self.text = text
 
 class BotApi:
     """Factory Base Class """
