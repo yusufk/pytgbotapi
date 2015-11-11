@@ -40,15 +40,23 @@ class Update:
                 self.message = Message(message['message_id'],message['from'],message['date'],message['chat'],text=message['text'])
             else: self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])        else: self.message = None
 
+class Chat:
+	"""Chat Object"""
+	def __init__(self, msg_id, msg_type=None,**optional):
+		self.msg_id = msg_id
+		self.msg_type = msg_type
+        self.title = optional.get('title',None)
+        self.username = optional.get('username',None)
+
 class Message:
     """Message Object"""
 
     def __init__(self, message_id=None, msg_from=None, msg_date=None, chat=None,**optional):
         self.message_id = message_id
-        print(msg_from)
+        #print(msg_from)
         self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
-        self.chat = chat
+        self.chat = Chat(chat['id'],chat['type'],title = chat['title'], username = chat['username']
         self.text = optional.get('text',None)
 
 class BotApi:
