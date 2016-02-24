@@ -35,20 +35,24 @@ class Update:
     def __init__(self, update_id,message=None):
         self.update_id = update_id
         if message != None:
-            #print(message)
+            print(message)
             self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
             if "text" in message:
                 self.message.set_text(message['text'])
         else: self.message = None
 
 class Chat:
-	"""Chat Object"""
-	def __init__(self, msg_id, msg_type):
-		self.msg_id = msg_id
-		self.msg_type = msg_type
+    """Chat Object"""
+    def __init__(self, chat_id, chat_type, chat_title=None, chat_username=None, chat_first_name=None, chat_last_name=None):
+        self.chat_id = chat_id
+        self.chat_type = chat_type
+	self.title = chat_title
+	self.username = chat_username
+	self.first_name = chat_first_name
+	self.last_name = chat_last_name
 
-    def set_title(self,msg_title):
-        self.title = msg_title
+    def set_title(self,title):
+        self.title = chat_title
 
     def set_username(self,username):
         self.username = username
@@ -82,6 +86,7 @@ class BotApi:
         r = requests.post(self.api_url+"/bot"+self.token+"/"+method, parameters)#, data, auth=('user', '*****'))
         response = json.loads(r.text)
         if "result" in response:
+            #print(response)
             return response['result']
         else:
             print(response)
