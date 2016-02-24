@@ -35,7 +35,7 @@ class Update:
     def __init__(self, update_id,message=None):
         self.update_id = update_id
         if message != None:
-            print(message)
+            #print(message)
             self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
             if "text" in message:
                 self.message.set_text(message['text'])
@@ -52,7 +52,7 @@ class Chat:
 	self.last_name = chat_last_name
 
     def set_title(self,title):
-        self.title = chat_title
+        self.title = title
 
     def set_username(self,username):
         self.username = username
