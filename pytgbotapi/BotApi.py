@@ -36,7 +36,7 @@ class Update:
         self.update_id = update_id
         if message != None:
             #print(message)
-            self.message = Message(message['message_id'],message['from'],message['date'],message['chat'])
+            self.message = Message(message_id=message['message_id'],msg_date=message['date'], chat=message['chat'], msg_from=message['from'])
             if "text" in message:
                 self.message.set_text(message['text'])
         else: self.message = None
@@ -46,10 +46,10 @@ class Chat:
     def __init__(self, chat_id, chat_type, chat_title=None, chat_username=None, chat_first_name=None, chat_last_name=None):
         self.chat_id = chat_id
         self.chat_type = chat_type
-	self.title = chat_title
-	self.username = chat_username
-	self.first_name = chat_first_name
-	self.last_name = chat_last_name
+        self.title = chat_title
+        self.username = chat_username
+        self.first_name = chat_first_name
+        self.last_name = chat_last_name
 
     def set_title(self,title):
         self.title = title
@@ -60,16 +60,19 @@ class Chat:
 class Message:
     """Message Object"""
 
-    def __init__(self, message_id=None, msg_from=None, msg_date=None, chat=None):
+    def __init__(self, message_id, msg_date, chat, msg_from=None,text=None):
         self.message_id = message_id
-        #print(msg_from)
-        self.msg_from = User(msg_from['id'],msg_from['first_name'])
+        #print(msg_from)i
+        if msg_from != None:
+            self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
+        self.text = text
         self.chat = Chat(chat['id'],chat['type'])
         if "title" in chat:
             self.chat.set_title(chat['title'])
         if "username" in chat:
             self.chat.set_username(chat['username'])
+
 
     def set_text(self,text):
         self.text = text
