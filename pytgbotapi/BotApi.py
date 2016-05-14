@@ -30,6 +30,12 @@ class User:
         self.last_name = last_name
         self.username = username
 
+class Location:
+    """Location Object"""
+    def __init__(self, longitude, latitude):
+        self.longitude = longitude
+        self.latitude = latitude
+
 class Update:
     """Update Object"""
     def __init__(self, update_id,message=None):
@@ -39,6 +45,8 @@ class Update:
             self.message = Message(message_id=message['message_id'],msg_date=message['date'], chat=message['chat'], msg_from=message['from'])
             if "text" in message:
                 self.message.set_text(message['text'])
+            if "location" in message:
+                self.message.set_location(message['location'])
         else: self.message = None
 
 class Chat:
@@ -59,23 +67,27 @@ class Chat:
 
 class Message:
     """Message Object"""
-
-    def __init__(self, message_id, msg_date, chat, msg_from=None,text=None):
+    def __init__(self, message_id, msg_date, chat, msg_from=None,text=None,location=None):
         self.message_id = message_id
         #print(msg_from)i
         if msg_from != None:
             self.msg_from = User(msg_from['id'],msg_from['first_name'])
         self.msg_date = msg_date
         self.text = text
+        if location != None:
+            self.location = Location(location['longitude'],location['latitude'])
+        else: self.location = None
         self.chat = Chat(chat['id'],chat['type'])
         if "title" in chat:
             self.chat.set_title(chat['title'])
         if "username" in chat:
             self.chat.set_username(chat['username'])
 
-
     def set_text(self,text):
         self.text = text
+
+    def set_location(self,location):
+        self.location = Location(location['longitude'],location['latitude'])
 
 class BotApi:
     """Factory Base Class """
@@ -86,6 +98,7 @@ class BotApi:
         self.lastFetchedUpdate = 0
 
     def send_request(self,method,parameters=None):
+        #print(parameters)
         r = requests.post(self.api_url+"/bot"+self.token+"/"+method, parameters)#, data, auth=('user', '*****'))
         response = json.loads(r.text)
         if "result" in response:
